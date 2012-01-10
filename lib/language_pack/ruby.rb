@@ -422,6 +422,6 @@ params = CGI.parse(uri.query || "")
 
   def generate_jekyll_site
     topic("Building Jekyll site")
-    pipe("env PATH=$PATH bundle exec jekyll 2>&1")
+    pipe("env PATH=$PATH bundle exec rake generate 2>&1")
   end
 end
