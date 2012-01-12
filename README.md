@@ -1,7 +1,9 @@
-Heroku buildpack: Ruby
+Heroku buildpack: Octopress (Jekyll + Ruby)
 ======================
 
-This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for Ruby, Rack, and Rails apps. It uses [Bundler](http://gembundler.com) for dependency management.
+This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for Octopress, Ruby, Rack, and Rails apps. It uses [Bundler](http://gembundler.com) for dependency management.
+
+See [my blog post](http://jasongarber.com/blog/2012/01/10/deploying-octopress-to-heroku-with-a-custom-buildpack/) for information on how to configure Octopress for use with Heroku.
 
 Usage
 -----
