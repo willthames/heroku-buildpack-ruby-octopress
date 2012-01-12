@@ -8,6 +8,68 @@ See [my blog post](http://jasongarber.com/blog/2012/01/10/deploying-octopress-to
 Usage
 -----
 
+### Octopress
+
+Example Usage:
+
+    $ ls
+    CHANGELOG.markdown README.markdown    config.rb          public
+    Gemfile            Rakefile           config.ru          sass
+    Gemfile.lock       _config.yml        plugins            source
+
+    $ heroku create --stack cedar --buildpack git://github.com/jgarber/heroku-buildpack-ruby-octopress.git
+
+    -----> Heroku receiving push
+    -----> Fetching custom buildpack... done
+    -----> Octopress app detected
+    -----> Installing dependencies using Bundler version 1.1.rc.3
+           Running: bundle install --without development:test --path vendor/bundle --binstubs bin/ --deployment
+           Using rake (0.9.2)
+           Using RedCloth (4.2.8)
+           Using posix-spawn (0.3.6)
+           Using albino (1.3.3)
+           Using chunky_png (1.2.1)
+           Using fast-stemmer (1.0.0)
+           Using classifier (1.3.3)
+           Using coffee-script-source (1.1.3)
+           Using multi_json (1.0.4)
+           Using execjs (1.2.11)
+           Using coffee-script (2.2.0)
+           Using fssm (0.2.7)
+           Using sass (3.1.5)
+           Using compass (0.11.5)
+           Using daemons (1.1.4)
+           Using directory_watcher (1.4.0)
+           Using eventmachine (0.12.10)
+           Using haml (3.1.2)
+           Using kramdown (0.13.3)
+           Using liquid (2.2.2)
+           Using syntax (1.0.0)
+           Using maruku (0.6.0)
+           Using jekyll (0.11.0)
+           Using rack (1.3.2)
+           Using rdiscount (1.6.8)
+           Using rubypants (0.2.0)
+           Using tilt (1.3.2)
+           Using sinatra (1.2.6)
+           Using stringex (1.3.0)
+           Using thin (1.2.7)
+           Using bundler (1.1.rc.3)
+           Your bundle is complete! It was installed into ./vendor/bundle
+           Cleaning up the bundler cache.
+    -----> Building Jekyll site
+           ## Generating Site with Jekyll
+           directory source/stylesheets/
+              create source/stylesheets/screen.css
+           Configuration from /tmp/build_3hjas2h9zl31n/_config.yml
+           Building site: source -> public
+           Successfully generated site: source -> public
+    -----> Discovering process types
+           Procfile declares types     -> (none)
+           Default types for Octopress -> console, rake, web
+
+The buildpack will detect your app as Octopress if it has a `_config.yml` file and a rake task to generate the site with Jekyll and compass.
+
 ### Ruby
 
 Example Usage:
