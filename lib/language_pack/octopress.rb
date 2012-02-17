@@ -1,30 +1,21 @@
 require "language_pack"
-require "language_pack/rack"
+require "language_pack/jekyll"
 
 # Octopress Language Pack.
-class LanguagePack::Octopress < LanguagePack::Rack
+class LanguagePack::Octopress < LanguagePack::Jekyll
 
-  # detects if this is a valid Octopress site by seeing if "_config.yml" exists
-  # and the Rakefile
-  # @return [Boolean] true if it's a Rack app
   def self.use?
-    super && File.exist?("_config.yml") &&
-    File.read("Rakefile") =~ /task :generate/
+    super && has_generate_task?
+  end
+
+  def self.has_generate_task?
+    File.read("Rakefile") =~ /task :generate/ rescue Errno::ENOENT
   end
 
   def name
     "Octopress"
   end
-  
-  def compile
-    super
-    allow_git do
-      generate_jekyll_site
-    end
-  end
-  
-  private
-  
+
   def generate_jekyll_site
     topic("Building Jekyll site")
     if File.read(".slugignore") =~ /plugins|sass|source/
