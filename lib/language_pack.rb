@@ -9,7 +9,7 @@ module LanguagePack
   def self.detect(*args)
     Dir.chdir(args.first)
 
-    pack = [ Octopress, Rails3, Rails2, Rack, Ruby ].detect do |klass|
+    pack = [ Octopress, Jekyll, Rails3, Rails2, Rack, Ruby ].detect do |klass|
       klass.use?
     end
 
