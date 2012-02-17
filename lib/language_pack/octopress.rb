@@ -9,7 +9,9 @@ class LanguagePack::Octopress < LanguagePack::Jekyll
   end
 
   def self.has_generate_task?
-    File.read("Rakefile") =~ /task :generate/ rescue Errno::ENOENT
+    File.read("Rakefile") =~ /task :generate/
+  rescue Errno::ENOENT
+    false
   end
 
   def name
