@@ -1,16 +1,18 @@
-Heroku buildpack: Octopress (Jekyll + Ruby)
+Heroku buildpack: Octopress/Jekyll on Ruby
 ======================
 
-This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for Octopress, Ruby, Rack, and Rails apps. It uses [Bundler](http://gembundler.com) for dependency management.
+This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for Octopress, Jekyll, Ruby, Rack, and Rails apps. It uses [Bundler](http://gembundler.com) for dependency management.
 
 See [my blog post](http://jasongarber.com/blog/2012/01/10/deploying-octopress-to-heroku-with-a-custom-buildpack/) for information on how to configure Octopress for use with Heroku.
 
 Usage
 -----
 
-### Octopress
+### Octopress or Jekyll
 
-Example Usage:
+This buildpack should detect Jekyll sites and, if present, run the :generate rake task, which is specific to Octopress.
+
+Octopress example usage:
 
     $ ls
     CHANGELOG.markdown README.markdown    config.rb          public
@@ -68,7 +70,7 @@ Example Usage:
            Procfile declares types     -> (none)
            Default types for Octopress -> console, rake, web
 
-The buildpack will detect your app as Octopress if it has a `_config.yml` file and a rake task to generate the site with Jekyll and compass.
+The buildpack will detect your app as Jekyll if it has a `_config.yml` file and Octopress if your Rakefile contains the `:generate` task, which generates the Jekyll site and also compiles the CSS.
 
 ### Ruby
 

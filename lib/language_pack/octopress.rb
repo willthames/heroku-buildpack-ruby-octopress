@@ -19,9 +19,9 @@ class LanguagePack::Octopress < LanguagePack::Jekyll
   end
 
   def generate_jekyll_site
-    topic("Building Jekyll site")
+    topic("Building Octopress site")
     if File.read(".slugignore") =~ /plugins|sass|source/
-      error ".slugignore contains #{$&}. Jekyll generation will fail."
+      error ".slugignore contains #{$&}. Octopress generation will fail."
     end
     pipe("env PATH=$PATH bundle exec rake generate 2>&1")
   end
