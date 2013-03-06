@@ -1,8 +1,6 @@
 Heroku buildpack: Octopress/Jekyll on Ruby
 ======================
 
-This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for Octopress, Jekyll, Ruby, Rack, and Rails apps. It uses [Bundler](http://gembundler.com) for dependency management.
-
 See [my blog post](http://jasongarber.com/blog/2012/01/10/deploying-octopress-to-heroku-with-a-custom-buildpack/) for information on how to configure Octopress for use with Heroku.
 
 Usage
@@ -79,7 +77,7 @@ Example Usage:
     $ ls
     Gemfile Gemfile.lock
 
-    $ heroku create --stack cedar --buildpack http://github.com/heroku/heroku-buildpack-ruby.git
+    $ heroku create --stack cedar --buildpack https://github.com/heroku/heroku-buildpack-ruby.git
 
     $ git push heroku master
     ...
@@ -113,7 +111,7 @@ Example Usage:
     $ ls config/environment.rb
     config/environment.rb
 
-    $ heroku create --stack cedar --buildpack http://github.com/heroku/heroku-buildpack-ruby.git
+    $ heroku create --stack cedar --buildpack https://github.com/heroku/heroku-buildpack-ruby.git
 
     $ git push heroku master
     ...
@@ -147,7 +145,7 @@ Example Usage:
     $ ls config/application.rb
     config/application.rb
 
-    $ heroku create --stack cedar --buildpack http://github.com/heroku/heroku-buildpack-ruby.git
+    $ heroku create --stack cedar --buildpack https://github.com/heroku/heroku-buildpack-ruby.git
 
     $ git push heroku master
     -----> Heroku receiving push
