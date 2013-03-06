@@ -2,11 +2,14 @@ require "language_pack"
 require "pathname"
 require "yaml"
 require "digest/sha1"
+require "language_pack/shell_helpers"
 
 Encoding.default_external = Encoding::UTF_8 if defined?(Encoding)
 
 # abstract class that all the Ruby based Language Packs inherit from
 class LanguagePack::Base
+  include LanguagePack::ShellHelpers
+
   VENDOR_URL = "https://s3.amazonaws.com/heroku-buildpack-ruby"
 
   attr_reader :build_path, :cache_path
@@ -62,7 +65,6 @@ class LanguagePack::Base
 
     {
       "addons" => default_addons,
-      "config_vars" => default_config_vars,
       "default_process_types" => default_process_types
     }.to_yaml
   end
@@ -96,6 +98,21 @@ private ##################################
   def setup_language_pack_environment
   end
 
+  def add_to_profiled(string)
+    FileUtils.mkdir_p "#{build_path}/.profile.d"
+    File.open("#{build_path}/.profile.d/ruby.sh", "a") do |file|
+      file.puts string
+    end
+  end
+
+  def set_env_default(key, val)
+    add_to_profiled "export #{key}=${#{key}:-#{val}}"
+  end
+
+  def set_env_override(key, val)
+    add_to_profiled %{export #{key}="#{val.gsub('"','\"')}"}
+  end
+
   def log_internal(*args)
     message = build_log_message(args)
     %x{ logger -p user.notice -t "slugc[$$]" "buildpack-ruby #{message}" }
@@ -110,58 +127,6 @@ private ##################################
         else arg
       end
     end.join(" ")
-  end
-
-  # display error message and stop the build process
-  # @param [String] error message
-  def error(message)
-    Kernel.puts " !"
-    message.split("\n").each do |line|
-      Kernel.puts " !     #{line.strip}"
-    end
-    Kernel.puts " !"
-    log "exit", :error => message
-    exit 1
-  end
-
-  # run a shell comannd and pipe stderr to stdout
-  # @param [String] command to be run
-  # @return [String] output of stdout and stderr
-  def run(command)
-    %x{ #{command} 2>&1 }
-  end
-
-  # run a shell command and stream the ouput
-  # @param [String] command to be run
-  def pipe(command)
-    output = ""
-    IO.popen(command) do |io|
-      until io.eof?
-        buffer = io.gets
-        output << buffer
-        puts buffer
-      end
-    end
-
-    output
-  end
-
-  # display a topic message
-  # (denoted by ----->)
-  # @param [String] topic message to be displayed
-  def topic(message)
-    Kernel.puts "-----> #{message}"
-    $stdout.flush
-  end
-
-  # display a message in line
-  # (indented by 6 spaces)
-  # @param [String] message to be displayed
-  def puts(message)
-    message.split("\n").each do |line|
-      super "       #{line.strip}"
-    end
-    $stdout.flush
   end
 
   # create a Pathname of the cache dir
@@ -200,5 +165,11 @@ private ##################################
     system("cp -a #{from}/. #{to}")
   end
 
+  # check if the cache content exists
+  # @param [String] relative path of the cache contents
+  # @param [Boolean] true if the path exists in the cache and false if otherwise
+  def cache_exists?(path)
+    File.exists?(cache_base + path)
+  end
 end
 
